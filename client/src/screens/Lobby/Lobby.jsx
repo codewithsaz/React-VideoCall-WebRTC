@@ -13,7 +13,7 @@ const Lobby = () => {
     (e) => {
       e.preventDefault();
       //   console.log({ email, room });
-      socket.emit("join_room", { email, room });
+      socket.emit("room:join", { email, room });
     },
     [email, room]
   );
@@ -21,15 +21,15 @@ const Lobby = () => {
   const handleJoinRoom = useCallback(
     (data) => {
       const { email, room } = data;
-      navigate(`room/${room}`);
+      navigate(`/room/${room}`);
     },
     [navigate]
   );
 
   useEffect(() => {
-    socket.on("join_room", handleJoinRoom);
+    socket.on("room:join", handleJoinRoom);
     return () => {
-      socket.off("join_room", handleJoinRoom);
+      socket.off("room:join", handleJoinRoom);
     };
   }, [socket, handleJoinRoom]);
   return (
